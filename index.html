@@ -1,0 +1,2442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10251E">
+<title>Quem ilumina o nosso futuro?</title>
+
+<style>
+:root {
+  --bg: #10251E;
+  --paper: #F5F3E8;
+  --green: #A8D5A2;
+  --amber: #E8B86D;
+  --blue: #80C7D9;
+  --muted: #B8C6B9;
+  --line: rgba(168,213,162,.22);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #091711;
+  color: var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 28px;
+}
+
+button, a { touch-action: manipulation; }
+
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 5px;
+}
+
+button:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+.toolbar, .controls {
+  width: min(1440px, 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.toolbar { margin-bottom: 16px; }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1.4px;
+}
+
+.brand svg { width: 24px; height: 28px; }
+
+.actions { display: flex; gap: 5px; }
+
+.tool {
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 8px 11px;
+  font-size: 12px;
+}
+
+.tool:hover {
+  color: var(--paper);
+  border-color: var(--line);
+  background: #173228;
+}
+
+.deck {
+  position: relative;
+  width: min(1440px, calc((100dvh - 140px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  container-type: inline-size;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 80px #0005;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 4.2cqw 5cqw;
+  background:
+    radial-gradient(ellipse at 85% 35%, #25453666, transparent 58%),
+    var(--bg);
+  isolation: isolate;
+}
+
+.slide.active {
+  display: block;
+  animation: enter .5s ease both;
+}
+
+.eyebrow {
+  display: flex;
+  gap: 1.2cqw;
+  align-items: center;
+  margin-bottom: 2.4cqw;
+  font-size: .78cqw;
+  font-weight: bold;
+  letter-spacing: .15em;
+  color: var(--muted);
+}
+
+.eyebrow span { color: var(--green); }
+.past .eyebrow span { color: var(--amber); }
+
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+
+h1 {
+  font-size: 5.7cqw;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+
+h2 {
+  font-size: 3.6cqw;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.045em;
+}
+
+em {
+  font-style: normal;
+  color: var(--green);
+}
+
+.past em { color: var(--amber); }
+
+.lead {
+  margin-top: 1.8cqw;
+  max-width: 38cqw;
+  font-size: 1.25cqw;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 2.2cqw;
+  align-items: center;
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.svg-label {
+  font: 9px Arial, sans-serif;
+  letter-spacing: 1.6px;
+}
+
+.slide-footer {
+  position: absolute;
+  bottom: 2.2cqw;
+  left: 5cqw;
+  right: 5cqw;
+  display: flex;
+  justify-content: space-between;
+  gap: 2cqw;
+  border-top: 1px solid var(--line);
+  padding-top: 1cqw;
+  font-size: .65cqw;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+
+.slide-footer span:last-child { white-space: nowrap; }
+
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 2cqw;
+  font-size: .68cqw;
+  letter-spacing: .15em;
+  color: var(--muted);
+  margin-bottom: 6.5cqw;
+}
+
+.cover-caption {
+  display: flex;
+  align-items: center;
+  gap: .8cqw;
+  margin-top: 2.7cqw;
+  font-size: .82cqw;
+  color: var(--green);
+}
+
+.cover-caption::before {
+  content: "";
+  width: .4cqw;
+  height: .4cqw;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 16px var(--amber);
+}
+
+.plain-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.9cqw 0 0;
+  font-size: 1.12cqw;
+  line-height: 1.5;
+}
+
+.plain-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 1cqw;
+  margin-bottom: 1cqw;
+}
+
+.plain-list li::before {
+  content: "";
+  flex: none;
+  width: .3cqw;
+  height: .3cqw;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.past .plain-list li::before { background: var(--amber); }
+
+.environment {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 6.2cqw;
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  padding: 1.1cqw 1.5cqw;
+  border-left: 2px solid var(--green);
+  background: #A8D5A207;
+  color: var(--muted);
+  font-size: 1.05cqw;
+  line-height: 1.5;
+}
+
+.environment svg {
+  width: 1.5cqw;
+  height: 1.5cqw;
+  flex: none;
+  color: var(--green);
+}
+
+figcaption {
+  margin-top: .5cqw;
+  text-align: center;
+  font-size: .65cqw;
+  color: var(--muted);
+}
+
+.flow {
+  margin-top: 2cqw;
+  font-size: 1.18cqw;
+  line-height: 1.5;
+}
+
+.flow div {
+  border-left: 1px solid var(--line);
+  padding: .5cqw 1cqw;
+}
+
+.flow > span {
+  display: block;
+  padding-left: 1cqw;
+  color: var(--green);
+}
+
+.bottom-pair {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 6.2cqw;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3cqw;
+  padding-top: 1.4cqw;
+  border-top: 1px solid var(--line);
+  font-size: 1.05cqw;
+  line-height: 1.6;
+}
+
+.accent { color: var(--green); }
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5cqw;
+  margin-top: 2.7cqw;
+}
+
+.media-card {
+  position: relative;
+  padding: 1.6cqw;
+  border: 1px solid var(--line);
+  background: #152F27;
+}
+
+.media-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5cqw;
+}
+
+.media-top span {
+  color: var(--blue);
+  font-size: 1.1cqw;
+}
+
+.media-top small {
+  color: var(--muted);
+  font-size: .5cqw;
+  letter-spacing: .08em;
+}
+
+.media-card .art { margin: 1.1cqw 0; }
+
+.media-card p {
+  font-size: 1.13cqw;
+  line-height: 1.5;
+  min-height: 5.1cqw;
+}
+
+.closing {
+  max-width: 72cqw;
+  margin-top: 2cqw;
+  font-size: 1.3cqw;
+  line-height: 1.6;
+  color: var(--green);
+}
+
+.future h2 { font-size: 2.85cqw; }
+
+.future .grid {
+  grid-template-columns: 1.25fr .9fr;
+  align-items: start;
+}
+
+.future-sub {
+  margin: 1cqw 0 1.4cqw;
+  font-size: 1.05cqw;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.role {
+  display: grid;
+  grid-template-columns: 6.6cqw 1fr;
+  gap: 1cqw;
+  padding: .5cqw 0;
+  font-size: .9cqw;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.role b {
+  padding-top: .15cqw;
+  color: var(--blue);
+  font-size: .65cqw;
+  letter-spacing: .08em;
+}
+
+.duties {
+  padding: 0;
+  margin: 1.2cqw 0 0;
+  list-style: none;
+}
+
+.duties li {
+  display: flex;
+  gap: 1cqw;
+  align-items: baseline;
+  margin: .65cqw 0;
+  font-size: 1cqw;
+  line-height: 1.45;
+}
+
+.duties span {
+  color: var(--blue);
+  font-size: .7cqw;
+}
+
+.future figure { margin-top: 3cqw; }
+
+.case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 2cqw;
+}
+
+.fiction {
+  padding: .7cqw 1cqw;
+  border: 1px solid #E8B86D66;
+  color: var(--amber);
+  font-size: .65cqw;
+  letter-spacing: .12em;
+  white-space: nowrap;
+}
+
+.scenario {
+  margin-top: 1.6cqw;
+  color: var(--muted);
+  font-size: 1.2cqw;
+  line-height: 1.6;
+}
+
+.river-art {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: 58%;
+  height: 100%;
+  opacity: .35;
+}
+
+.steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5cqw;
+  margin-top: 3.3cqw;
+}
+
+.steps::before {
+  content: "";
+  position: absolute;
+  top: 1.3cqw;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+}
+
+.active .steps::before { animation: grow .7s ease both; }
+
+.step-number {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6cqw;
+  height: 2.6cqw;
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  color: var(--green);
+  background: var(--bg);
+  font-size: .8cqw;
+}
+
+.step p {
+  margin-top: 1cqw;
+  font-size: 1.08cqw;
+  line-height: 1.55;
+}
+
+.outcomes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1cqw;
+  margin-top: 2.2cqw;
+  font-size: .78cqw;
+  color: var(--muted);
+}
+
+.outcomes b {
+  padding: .5cqw .2cqw;
+  border-bottom: 1px solid #80C7D955;
+  font-weight: normal;
+  color: var(--blue);
+}
+
+blockquote {
+  margin-top: 2.2cqw;
+  padding-left: 1.5cqw;
+  border-left: 2px solid var(--green);
+  font-size: 1.55cqw;
+  line-height: 1.55;
+  letter-spacing: -.02em;
+  color: var(--green);
+}
+
+.comparison { margin-top: 2.5cqw; }
+
+.comparison-head, .comparison-row {
+  display: grid;
+  grid-template-columns: 15cqw 1fr 1fr;
+  align-items: baseline;
+  gap: 2.5cqw;
+}
+
+.comparison-head { padding-bottom: 1cqw; }
+
+.comparison-head h3 {
+  font-size: .95cqw;
+  line-height: 1.5;
+  font-weight: normal;
+  color: var(--amber);
+}
+
+.comparison-head h3:last-child { color: var(--blue); }
+
+.comparison-row {
+  padding: 1.1cqw 0;
+  border-top: 1px solid var(--line);
+  font-size: 1.08cqw;
+  line-height: 1.5;
+}
+
+.comparison-row b {
+  font-size: .72cqw;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+
+.connection-bottom {
+  display: grid;
+  grid-template-columns: 1fr .65fr;
+  align-items: center;
+  gap: 4cqw;
+  margin-top: 1cqw;
+}
+
+.connection-bottom p {
+  font-size: 1.05cqw;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.connection-bottom .accent {
+  margin-top: 1cqw;
+  font-size: 1.3cqw;
+  color: var(--green);
+}
+
+.connection-bottom figure { height: 10cqw; }
+.connection-bottom .art { height: 100%; }
+
+.end .grid { grid-template-columns: 1.2fr 1fr; }
+
+.question {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 6.2cqw;
+  display: flex;
+  align-items: baseline;
+  gap: 3cqw;
+  padding-top: 1.4cqw;
+  border-top: 1px solid var(--line);
+}
+
+.question span {
+  flex: none;
+  font-size: .65cqw;
+  letter-spacing: .12em;
+  color: var(--green);
+}
+
+.question p {
+  font-size: 1.65cqw;
+  line-height: 1.4;
+  letter-spacing: -.02em;
+}
+
+.controls { margin-top: 15px; }
+
+.progress {
+  display: flex;
+  gap: 6px;
+}
+
+.progress button {
+  width: 30px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.progress button::after {
+  content: "";
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: #A8D5A235;
+}
+
+.progress button[aria-current="true"]::after {
+  height: 3px;
+  background: var(--green);
+}
+
+.progress button:hover::after { background: var(--amber); }
+
+.control-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter {
+  min-width: 48px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+
+.nav-button {
+  width: 36px;
+  height: 33px;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+.nav-button:hover:enabled { background: #A8D5A215; }
+
+.key-hint {
+  margin-left: auto;
+  margin-right: 12px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+dialog {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  width: min(520px, 100%);
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: 30px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: #152E25;
+  color: var(--paper);
+  box-shadow: -20px 0 60px #0005;
+}
+
+dialog::backdrop {
+  background: #0008;
+  backdrop-filter: blur(4px);
+}
+
+.dialog-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.dialog-top h2 {
+  font-size: 24px;
+  letter-spacing: -.03em;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--paper);
+  font-size: 23px;
+}
+
+.panel-label {
+  margin-bottom: 16px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  line-height: 1.6;
+  color: var(--green);
+  text-transform: uppercase;
+}
+
+#note-text {
+  font-size: 19px;
+  line-height: 1.85;
+}
+
+.note-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.note-nav span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.panel-intro {
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sources li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sources small {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--blue);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.sources a {
+  color: var(--green);
+  font-size: 15px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.sources a:hover { text-decoration: underline; }
+
+.sources p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.print-button {
+  margin-top: 24px;
+  padding: 11px 16px;
+  background: transparent;
+  color: var(--green);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.active .reveal {
+  animation: reveal .6s ease both;
+  animation-delay: var(--delay, .15s);
+}
+
+.active .flame, .active .lamp-glow {
+  animation: ignite .6s ease both;
+  animation-delay: var(--delay, .1s);
+}
+
+.light-path, .tree-path {
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 0;
+}
+
+.active .light-path, .active .tree-path {
+  animation: draw .7s ease .3s both;
+}
+
+.active .node {
+  animation: ignite .5s ease both;
+  animation-delay: var(--delay, .8s);
+}
+
+.active .electric { animation: ignite .6s ease .5s both; }
+
+.transition.active .flame,
+.transition.active .lamp-glow {
+  animation: extinguish .6s ease .25s both;
+}
+
+.active .zone {
+  animation: highlight .7s ease both;
+  animation-delay: var(--delay, .2s);
+}
+
+@keyframes enter {
+  from { opacity: .4; transform: translateX(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(13px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ignite {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes extinguish { to { opacity: 0; } }
+
+@keyframes draw {
+  from { stroke-dashoffset: 1800; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes highlight {
+  from { opacity: .25; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  body {
+    justify-content: flex-start;
+    padding: 14px;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .brand {
+    font-size: 9px;
+    letter-spacing: .7px;
+  }
+
+  .tool {
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .deck {
+    width: 100%;
+    aspect-ratio: auto;
+    min-height: calc(100dvh - 160px);
+  }
+
+  .slide {
+    position: relative;
+    inset: auto;
+    min-height: calc(100dvh - 160px);
+    padding: 7cqw 7cqw 18cqw;
+  }
+
+  .eyebrow {
+    gap: 3cqw;
+    margin-bottom: 6cqw;
+    font-size: 2.1cqw;
+    letter-spacing: .1em;
+  }
+
+  h1 { font-size: 13cqw; }
+  h2 { font-size: 8.5cqw; }
+
+  .grid, .future .grid, .end .grid {
+    grid-template-columns: 1fr;
+    gap: 4cqw;
+  }
+
+  .cover-top {
+    font-size: 2cqw;
+    margin-bottom: 12cqw;
+  }
+
+  .cover-top span:last-child { display: none; }
+
+  .lead {
+    max-width: none;
+    margin-top: 5cqw;
+    font-size: 3.5cqw;
+  }
+
+  .cover-caption {
+    margin-top: 6cqw;
+    gap: 2cqw;
+    font-size: 2.5cqw;
+  }
+
+  .cover-caption::before {
+    width: 1cqw;
+    height: 1cqw;
+  }
+
+  .slide-footer {
+    left: 7cqw;
+    right: 7cqw;
+    bottom: 5cqw;
+    padding-top: 3cqw;
+    font-size: 1.65cqw;
+    letter-spacing: .06em;
+    line-height: 1.5;
+  }
+
+  .plain-list {
+    margin-top: 5cqw;
+    font-size: 3.2cqw;
+  }
+
+  .plain-list li {
+    gap: 3cqw;
+    margin-bottom: 3cqw;
+  }
+
+  .plain-list li::before {
+    width: 1cqw;
+    height: 1cqw;
+  }
+
+  .environment {
+    position: static;
+    margin-top: 5cqw;
+    padding: 3cqw 4cqw;
+    gap: 3cqw;
+    font-size: 3.1cqw;
+  }
+
+  .environment svg {
+    width: 5cqw;
+    height: 5cqw;
+  }
+
+  figcaption {
+    margin-top: 1cqw;
+    font-size: 2cqw;
+  }
+
+  .flow {
+    margin-top: 5cqw;
+    font-size: 3.3cqw;
+  }
+
+  .flow div { padding: 2cqw 3cqw; }
+  .flow > span { padding-left: 3cqw; }
+
+  .bottom-pair {
+    position: static;
+    grid-template-columns: 1fr;
+    gap: 3cqw;
+    margin-top: 4cqw;
+    padding-top: 4cqw;
+    font-size: 3.2cqw;
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr;
+    gap: 4cqw;
+    margin-top: 6cqw;
+  }
+
+  .media-card { padding: 4cqw 5cqw; }
+  .media-top span { font-size: 4cqw; }
+  .media-top small { font-size: 1.8cqw; }
+
+  .media-card .art {
+    width: 75%;
+    margin: 3cqw auto;
+  }
+
+  .media-card p {
+    min-height: 0;
+    font-size: 3.5cqw;
+  }
+
+  .closing {
+    max-width: none;
+    margin-top: 6cqw;
+    font-size: 3.6cqw;
+  }
+
+  .future h2 { font-size: 7.2cqw; }
+
+  .future-sub {
+    margin: 4cqw 0 5cqw;
+    font-size: 3.2cqw;
+  }
+
+  .role {
+    grid-template-columns: 19cqw 1fr;
+    gap: 3cqw;
+    padding: 2cqw 0;
+    font-size: 2.9cqw;
+  }
+
+  .role b {
+    padding-top: .5cqw;
+    font-size: 2cqw;
+  }
+
+  .duties { margin-top: 4cqw; }
+
+  .duties li {
+    gap: 3cqw;
+    margin: 3cqw 0;
+    font-size: 3cqw;
+  }
+
+  .duties span { font-size: 2cqw; }
+  .future figure { margin-top: 1cqw; }
+  .case-header { display: block; }
+
+  .fiction {
+    display: inline-block;
+    margin-top: 5cqw;
+    padding: 2cqw 3cqw;
+    font-size: 2cqw;
+  }
+
+  .scenario {
+    margin-top: 4cqw;
+    font-size: 3.4cqw;
+  }
+
+  .river-art {
+    position: absolute;
+    width: 100%;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 5cqw;
+    margin-top: 7cqw;
+  }
+
+  .steps::before {
+    top: 0;
+    left: 4cqw;
+    right: auto;
+    width: 1px;
+    height: 100%;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 4cqw;
+  }
+
+  .step-number {
+    flex: none;
+    width: 8cqw;
+    height: 8cqw;
+    font-size: 2.5cqw;
+  }
+
+  .step p {
+    margin: 0;
+    font-size: 3.3cqw;
+  }
+
+  .outcomes {
+    gap: 3cqw;
+    margin-top: 6cqw;
+    font-size: 2.6cqw;
+  }
+
+  .outcomes > span { width: 100%; }
+  .outcomes b { padding: 2cqw 0; }
+
+  blockquote {
+    margin-top: 6cqw;
+    padding-left: 4cqw;
+    font-size: 4cqw;
+  }
+
+  .comparison { margin-top: 6cqw; }
+
+  .comparison-head, .comparison-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 4cqw;
+  }
+
+  .comparison-head > span { display: none; }
+
+  .comparison-head {
+    padding-bottom: 3cqw;
+  }
+
+  .comparison-head h3 { font-size: 2.8cqw; }
+
+  .comparison-row {
+    padding: 4cqw 0;
+    row-gap: 2cqw;
+    font-size: 3.1cqw;
+  }
+
+  .comparison-row b {
+    grid-column: 1 / -1;
+    font-size: 2cqw;
+  }
+
+  .connection-bottom {
+    grid-template-columns: 1fr;
+    gap: 4cqw;
+    margin-top: 4cqw;
+  }
+
+  .connection-bottom p { font-size: 3.1cqw; }
+
+  .connection-bottom .accent {
+    margin-top: 4cqw;
+    font-size: 4cqw;
+  }
+
+  .connection-bottom figure { height: 34cqw; }
+
+  .question {
+    position: static;
+    display: block;
+    margin-top: 4cqw;
+    padding-top: 5cqw;
+  }
+
+  .question span { font-size: 2cqw; }
+
+  .question p {
+    margin-top: 3cqw;
+    font-size: 4.8cqw;
+  }
+
+  .progress { gap: 4px; }
+  .progress button { width: 18px; }
+  .controls { gap: 5px; }
+  .control-right { gap: 7px; }
+  .counter { min-width: 40px; font-size: 10px; }
+  .key-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  @page {
+    size: 13.333333in 7.5in;
+    margin: 0;
+  }
+
+  html, body {
+    display: block !important;
+    width: 13.333333in !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: var(--bg) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .toolbar, .controls, dialog, .sr-only {
+    display: none !important;
+  }
+
+  .deck {
+    width: 13.333333in !important;
+    aspect-ratio: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .slide, .slide.active {
+    position: relative !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: 7.5in !important;
+    min-height: 0 !important;
+    padding: 4.2cqw 5cqw !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .slide, .slide *, .slide::before, .slide::after {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="toolbar">
+  <div class="brand">
+    <svg viewBox="0 0 24 28" fill="none" stroke="currentColor"
+         aria-hidden="true">
+      <path d="M12 26V14M12 18C1 18 2 4 2 4S16 4 12 18Z
+               M12 14C23 14 22 1 22 1S9 1 12 14Z"/>
+    </svg>
+    PROFISSÕES EM TRANSFORMAÇÃO
+  </div>
+
+  <div class="actions">
+    <button class="tool" id="notes-button">Notas</button>
+    <button class="tool" id="sources-button">Fontes</button>
+    <button class="tool" id="fullscreen-button">Tela cheia</button>
+  </div>
+</header>
+
+<main class="deck" id="deck"
+      aria-label="Apresentação com oito slides"></main>
+
+<footer class="controls">
+  <nav class="progress" id="progress"
+       aria-label="Ir para um slide"></nav>
+
+  <span class="key-hint">
+    ← → NAVEGAR · F TELA CHEIA · N NOTAS
+  </span>
+
+  <div class="control-right">
+    <span class="counter" id="counter">01 / 08</span>
+    <button class="nav-button" id="prev"
+            aria-label="Slide anterior">←</button>
+    <button class="nav-button" id="next"
+            aria-label="Próximo slide">→</button>
+  </div>
+</footer>
+
+<div class="sr-only" id="announce" aria-live="polite"></div>
+
+<dialog id="notes-dialog" aria-labelledby="notes-title">
+  <div class="dialog-top">
+    <h2 id="notes-title">Notas do apresentador</h2>
+    <button class="close" data-close aria-label="Fechar notas">×</button>
+  </div>
+
+  <p class="panel-label" id="note-label"></p>
+  <p id="note-text"></p>
+
+  <div class="note-nav">
+    <button class="nav-button" id="note-prev"
+            aria-label="Notas do slide anterior">←</button>
+    <span>Roteiro para a apresentação oral</span>
+    <button class="nav-button" id="note-next"
+            aria-label="Notas do próximo slide">→</button>
+  </div>
+</dialog>
+
+<dialog id="sources-dialog" aria-labelledby="sources-title">
+  <div class="dialog-top">
+    <h2 id="sources-title">Fontes & referências</h2>
+    <button class="close" data-close aria-label="Fechar fontes">×</button>
+  </div>
+
+  <p class="panel-intro">
+    Referências históricas, ambientais e técnicas. A especialização
+    futura é uma proposta didática. Os exemplos de desinformação
+    e o caso do rio são fictícios.
+  </p>
+
+  <ul class="sources" id="source-list"></ul>
+
+  <button class="print-button" id="print-button">
+    Imprimir / salvar em PDF
+  </button>
+
+  <p class="panel-intro" style="margin-top:18px">
+    Na janela de impressão, escolha “Salvar como PDF” e ative
+    os gráficos de fundo. O PDF é estático; as animações
+    permanecem disponíveis neste HTML.
+  </p>
+</dialog>
+
+<script>
+"use strict";
+
+/* ILUSTRAÇÕES VETORIAIS */
+
+function svg(body, view = "0 0 600 440", className = "") {
+  return `
+    <svg class="art ${className}" viewBox="${view}"
+         fill="none" xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
+      ${body}
+    </svg>`;
+}
+
+function lamp(x, y = 100, scale = 1, delay = .1) {
+  return `
+    <g transform="translate(${x} ${y}) scale(${scale})">
+      <g class="lamp-glow" style="--delay:${delay}s">
+        <circle r="62" fill="#E8B86D" opacity=".025"/>
+        <circle r="43" fill="#E8B86D" opacity=".04"/>
+        <circle r="27" fill="#E8B86D" opacity=".07"/>
+      </g>
+
+      <g stroke="#E8B86D" stroke-width="2">
+        <path d="
+          M0 27V207
+          M-17 208H17
+          M-10 210V218H10V210
+          M-12 25H12L19-19H-19Z
+          M-23-20L0-36L23-20Z
+          M0-36V-44
+          M-12-18L-7 24
+          M12-18L7 24"/>
+      </g>
+
+      <path class="flame" style="--delay:${delay}s"
+            d="M0 15C-15 4 3-3 0-16C19 0 12 12 0 15"
+            fill="#E8B86D"/>
+    </g>`;
+}
+
+function leaf(x, y, scale = 1) {
+  return `
+    <g transform="translate(${x} ${y}) scale(${scale})">
+      <path d="M0 0C-40-2-48-36-45-65C-15-62 12-39 0 0Z"
+            fill="#A8D5A2" fill-opacity=".15" stroke="#A8D5A2"/>
+      <path d="M-32-48L0 0L6 14" stroke="#A8D5A2"/>
+    </g>`;
+}
+
+function magnifier(x, y, scale = 1) {
+  return `
+    <g transform="translate(${x} ${y}) scale(${scale})"
+       stroke="#80C7D9" stroke-width="3">
+      <circle r="46" fill="#10251E" fill-opacity=".85"/>
+      <path d="M33 33L72 72" stroke-width="10"
+            stroke-linecap="round"/>
+      <path d="M-20 1L-5 16L23-16"
+            stroke="#A8D5A2" stroke-width="4"/>
+    </g>`;
+}
+
+const windows = Array.from({length: 12}, (_, i) =>
+  [235, 260, 285].map(y =>
+    `<rect x="${20 + i * 22}" y="${y}" width="5" height="8"
+           fill="#E8B86D" opacity=".25"/>`
+  ).join("")
+).join("");
+
+const coverArt = svg(`
+  <circle cx="290" cy="205" r="174"
+          stroke="#A8D5A2" stroke-opacity=".08"/>
+  <circle cx="290" cy="205" r="140"
+          stroke="#A8D5A2" stroke-opacity=".08"/>
+
+  <g stroke="#E8B86D" stroke-opacity=".4">
+    <path d="
+      M0 330V223L40 190L80 223V330
+      M80 330V195L115 170L150 195V330
+      M150 330V233L185 205L220 233V330
+      M220 330V204L257 180L295 204V330"/>
+  </g>
+
+  ${windows}
+
+  <g stroke="#80C7D9" stroke-opacity=".4">
+    <path d="
+      M316 330V203H360V330
+      M376 330V146H431V330
+      M448 330V188H495V330
+      M510 330V228H554V330"/>
+    <path d="
+      M387 158H419M387 178H419M387 198H419
+      M387 218H419M387 238H419
+      M459 203H484M459 223H484M459 243H484"
+      stroke-opacity=".25"/>
+  </g>
+
+  ${leaf(363, 321, .8)}
+  ${leaf(528, 320, .75)}
+  ${lamp(142, 200, .58)}
+
+  <path class="light-path"
+        d="M142 199C180 133 271 138 294 203S379 271 410 199
+           S481 104 527 132"
+        stroke="#E8B86D" stroke-width="2"/>
+
+  <circle class="node" cx="527" cy="132"
+          r="7" fill="#A8D5A2"/>
+
+  <path d="M0 331H580M0 342H580"
+        stroke="#A8D5A2" stroke-opacity=".22"/>
+
+  <text x="12" y="382" class="svg-label" fill="#E8B86D">
+    A LUZ QUE VINHA DA CHAMA
+  </text>
+  <text x="320" y="382" class="svg-label" fill="#80C7D9">
+    A CLAREZA QUE VEM DOS DADOS
+  </text>
+`);
+
+const streetArt = svg(`
+  <path d="M0 340H600M0 354H600M50 386L520 373M20 407L590 397"
+        stroke="#E8B86D" stroke-opacity=".18"/>
+
+  ${lamp(100, 130, .9, .15)}
+  ${lamp(310, 130, .9, .75)}
+  ${lamp(510, 130, .9, 1.35)}
+
+  <g fill="#E8B86D">
+    <circle cx="267" cy="254" r="12"/>
+    <path d="M251 270L276 268L284 315H247Z"/>
+    <path d="
+      M254 310L249 340
+      M274 310L283 340
+      M270 277L296 256L303 228"
+      stroke="#E8B86D" stroke-width="8" stroke-linecap="round"/>
+    <path d="M259 241L275 240L273 246H256Z"/>
+    <path d="M289 286L319 134"
+          stroke="#E8B86D" stroke-width="3"/>
+  </g>
+
+  <text x="65" y="75" class="svg-label" fill="#E8B86D">
+    UM PERCURSO. UMA CIDADE ACESA.
+  </text>
+`);
+
+const electricityArt = svg(`
+  ${lamp(155, 136, .88)}
+
+  <path d="M410 325V115Q410 94 438 94H470"
+        stroke="#80C7D9" stroke-width="6"/>
+
+  <path d="M442 94H480"
+        stroke="#A8D5A2" stroke-width="7" stroke-linecap="round"/>
+
+  <path class="electric" d="M443 105L377 322H539L480 105Z"
+        fill="#80C7D9" fill-opacity=".13"/>
+
+  <path d="M269 208H329M317 196L329 208L317 220"
+        stroke="#A8D5A2" stroke-width="2"/>
+
+  <path d="M50 326H548" stroke="#A8D5A2" stroke-opacity=".25"/>
+
+  <text x="111" y="372" class="svg-label" fill="#E8B86D">
+    COMBUSTÍVEL
+  </text>
+  <text x="380" y="372" class="svg-label" fill="#80C7D9">
+    ELETRICIDADE
+  </text>
+
+  ${leaf(539, 318, .7)}
+`);
+
+const videoArt = svg(`
+  <rect x="14" y="15" width="250" height="125" rx="8"
+        stroke="#80C7D9" stroke-opacity=".5"/>
+  <path d="M15 108L67 54L111 92L153 42L220 111"
+        stroke="#A8D5A2" stroke-width="2"/>
+  <path d="M15 117Q90 80 155 116T264 113" stroke="#80C7D9"/>
+  <circle cx="217" cy="42" r="10" stroke="#E8B86D"/>
+  <path d="M120 58L146 75L120 91Z" fill="#F5F3E8"/>
+  <rect x="134" y="26" width="46" height="72"
+        stroke="#E8B86D" stroke-dasharray="4 4"/>
+  <g class="reveal" style="--delay:1s">
+    ${magnifier(224, 111, .32)}
+  </g>
+`, "0 0 280 155");
+
+const audioBars = [
+  52, 40, 24, 35, 47, 14, 30, 42,
+  19, 32, 46, 25, 37, 49, 43, 54
+].map((y, i) => `
+  <path d="M${30 + i * 12} ${y}V${120 - y}"
+        stroke="#80C7D9" stroke-width="3" stroke-linecap="round"/>
+`).join("");
+
+const audioArt = svg(`
+  <path d="M15 60H264" stroke="#80C7D9" stroke-opacity=".15"/>
+  ${audioBars}
+  <path d="M113 15V110M170 15V110"
+        stroke="#E8B86D" stroke-dasharray="4 4"/>
+  <g class="reveal" style="--delay:1.25s">
+    ${magnifier(224, 111, .32)}
+  </g>
+`, "0 0 280 155");
+
+const imageArt = svg(`
+  <rect x="14" y="15" width="250" height="125" rx="8"
+        stroke="#80C7D9" stroke-opacity=".5"/>
+  <path d="M20 123Q90 88 144 122T257 114" stroke="#A8D5A2"/>
+  <path d="
+    M182 112V61H240V112
+    M207 61V35H220V61
+    M191 78H200M215 78H228
+    M191 94H200M215 94H228"
+    stroke="#80C7D9"/>
+  ${leaf(98, 117)}
+  <rect x="46" y="41" width="64" height="78"
+        stroke="#E8B86D" stroke-dasharray="4 4"/>
+  <g class="reveal" style="--delay:1.5s">
+    ${magnifier(224, 111, .32)}
+  </g>
+`, "0 0 280 155");
+
+const deskArt = svg(`
+  <path d="M25 357H578M70 357L55 410M530 357L549 410"
+        stroke="#80C7D9" stroke-opacity=".55" stroke-width="2"/>
+
+  <g class="zone" style="--delay:.25s">
+    <rect x="54" y="50" width="340" height="224" rx="12"
+          fill="#132F28" stroke="#80C7D9" stroke-opacity=".5"/>
+
+    <rect x="74" y="74" width="298" height="139"
+          fill="#A8D5A2" fill-opacity=".04"/>
+
+    <path d="
+      M88 180L120 113L151 149L194 97L225 120L258 83L300 124L353 109
+      M88 180L142 193L208 160L266 175L353 141"
+      stroke="#A8D5A2" stroke-opacity=".5"/>
+
+    <path d="
+      M79 85H370M79 118H370M79 151H370M79 184H370
+      M108 74V213M157 74V213M206 74V213
+      M255 74V213M304 74V213M353 74V213"
+      stroke="#A8D5A2" stroke-opacity=".1"/>
+
+    <path d="M195 274V308H253V274M161 310H286"
+          stroke="#80C7D9" stroke-opacity=".5"/>
+
+    ${magnifier(306, 179, .65)}
+  </g>
+
+  <g class="zone" style="--delay:.55s">
+    <rect x="61" y="320" width="245" height="30" rx="5"
+          stroke="#80C7D9" stroke-opacity=".5"/>
+    <path d="M81 329H285M81 338H285"
+          stroke="#80C7D9" stroke-opacity=".3"/>
+  </g>
+
+  <g class="zone" style="--delay:.85s">
+    <rect x="417" y="160" width="134" height="185" rx="6"
+          fill="#18362C" stroke="#A8D5A2" stroke-opacity=".6"/>
+    <path d="
+      M438 192H524M438 205H506
+      M438 258H524M438 271H513M438 284H501"
+      stroke="#A8D5A2" stroke-opacity=".5"/>
+    <path d="M446 226L456 237L477 216"
+          stroke="#A8D5A2" stroke-width="3"/>
+    <text x="438" y="316" class="svg-label" fill="#A8D5A2">
+      EVIDÊNCIAS
+    </text>
+  </g>
+
+  <g class="zone" style="--delay:1.15s">
+    <circle cx="477" cy="77" r="36"
+            stroke="#80C7D9" stroke-opacity=".6"/>
+    <path d="M459 77L472 91L497 64"
+          stroke="#A8D5A2" stroke-width="3"/>
+  </g>
+`);
+
+const riverArt = svg(`
+  <path d="M-20 200Q120 45 285 196T620 175V440H-20Z"
+        fill="#A8D5A2" fill-opacity=".06"/>
+  <path d="M348 0C87 125 580 162 314 259S121 345 396 440"
+        stroke="#80C7D9" stroke-opacity=".3" stroke-width="78"/>
+  <path d="M348 0C87 125 580 162 314 259S121 345 396 440"
+        stroke="#80C7D9" stroke-opacity=".4"/>
+  <path d="
+    M429 118V64H506V118
+    M448 64V24H463V64
+    M441 82H451M476 82H488"
+    stroke="#80C7D9" stroke-opacity=".35"/>
+`, "0 0 600 440", "river-art");
+
+const bridgeArt = svg(`
+  ${lamp(102, 93, .62)}
+  <path class="light-path"
+        d="M104 97C200 23 245 169 319 96S439 69 473 111"
+        stroke="#E8B86D" stroke-width="2"/>
+  ${magnifier(480, 104, .9)}
+  ${leaf(477, 115, .55)}
+  <text x="69" y="273" class="svg-label" fill="#E8B86D">
+    ILUMINAR
+  </text>
+  <text x="442" y="273" class="svg-label" fill="#80C7D9">
+    VERIFICAR
+  </text>
+`, "0 0 600 300");
+
+const treeNodes = [
+  [120,137], [195,74], [270,49], [342,73],
+  [414,101], [476,174], [477,305], [117,260]
+].map(([x, y], i) => `
+  <circle class="node" style="--delay:${.8 + i * .1}s"
+          cx="${x}" cy="${y}" r="5" fill="#A8D5A2"/>
+`).join("");
+
+const treeArt = svg(`
+  <circle cx="300" cy="211" r="174"
+          stroke="#A8D5A2" stroke-opacity=".08"/>
+  <circle cx="300" cy="211" r="133"
+          stroke="#A8D5A2" stroke-opacity=".08"/>
+
+  <path class="tree-path" d="
+    M300 400V245L230 183L170 183L120 137
+    M230 183V109L195 74
+    M300 285L367 226H431L476 174
+    M367 226V143L414 101
+    M300 246V139L270 105V49
+    M300 174L342 132V73
+    M300 344L216 295H162L117 260
+    M431 226V274L477 305"
+    stroke="#A8D5A2" stroke-width="3"
+    stroke-linecap="round" stroke-linejoin="round"/>
+
+  ${treeNodes}
+  ${leaf(230, 174, .6)}
+  ${leaf(417, 214, -.65)}
+  ${leaf(299, 130, .6)}
+  ${leaf(359, 137, -.55)}
+`);
+
+/* COMPONENTES */
+
+function eyebrow(number, text) {
+  return `
+    <div class="eyebrow">
+      <span>${String(number).padStart(2, "0")} /</span>
+      ${text}
+    </div>`;
+}
+
+function footer(text, number) {
+  return `
+    <div class="slide-footer">
+      <span>${text}</span>
+      <span>${String(number).padStart(2, "0")} — 08</span>
+    </div>`;
+}
+
+function environment(text) {
+  return `
+    <div class="environment reveal">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" aria-hidden="true">
+        <path d="M5 20C3 10 7 4 21 3C21 16 15 21 5 20Z
+                 M5 20L16 9"/>
+      </svg>
+      <p>${text}</p>
+    </div>`;
+}
+
+function list(items) {
+  return `
+    <ul class="plain-list">
+      ${items.map((item, i) => `
+        <li class="reveal" style="--delay:${.25 + i * .15}s">
+          ${item}
+        </li>
+      `).join("")}
+    </ul>`;
+}
+
+/* OITO SLIDES */
+
+const slideData = [
+  {
+    name: "Abertura",
+    className: "cover",
+    html: `
+      <div class="cover-top">
+        <span>TRABALHO · TECNOLOGIA · MEIO AMBIENTE</span>
+        <span>UMA VIAGEM ENTRE DUAS ÉPOCAS</span>
+      </div>
+
+      <div class="grid">
+        <div>
+          ${eyebrow(1, "PASSADO → FUTURO")}
+
+          <h1 id="title-0" class="reveal">
+            Quem ilumina<br>o nosso <em>futuro?</em>
+          </h1>
+
+          <p class="lead reveal" style="--delay:.35s">
+            Do acendedor de lampiões ao investigador de deepfakes:
+            profissões, tecnologia e meio ambiente.
+          </p>
+
+          <div class="cover-caption reveal" style="--delay:.55s">
+            O trabalho muda. A responsabilidade permanece.
+          </div>
+        </div>
+
+        <figure>${coverArt}</figure>
+      </div>
+
+      ${footer("PROFISSÕES EM TRANSFORMAÇÃO", 1)}
+    `,
+    notes: `O trabalho muda quando a sociedade cria novas ferramentas
+      e enfrenta novos problemas. Vamos conhecer um ofício que quase
+      desapareceu e imaginar a evolução de uma profissão ligada à
+      confiança digital e à proteção ambiental.`
+  },
+
+  {
+    name: "O acendedor",
+    className: "past",
+    html: `
+      ${eyebrow(2, "UM OFÍCIO DO PASSADO")}
+
+      <div class="grid">
+        <div>
+          <h2 id="title-1">
+            Quando iluminar<br>a cidade era um<br>
+            <em>trabalho manual</em>
+          </h2>
+
+          <p class="lead">
+            O acendedor de lampiões percorria as ruas para acender
+            e apagar a iluminação pública.
+          </p>
+
+          ${list([
+            "Trabalhava ao anoitecer e ao amanhecer.",
+            "Usava uma haste ou escada, conforme o tipo de lampião.",
+            "Em muitos locais, também cuidava da manutenção."
+          ])}
+        </div>
+
+        <figure>
+          ${streetArt}
+          <figcaption>
+            Acendedor de lampiões · ilustração histórica simplificada
+          </figcaption>
+        </figure>
+      </div>
+
+      ${environment(`
+        A iluminação dependia de combustíveis, como óleo ou gás,
+        conforme a época e a cidade.
+      `)}
+
+      ${footer(
+        "O OFÍCIO QUASE DESAPARECEU; HÁ EXCEÇÕES HISTÓRICAS.",
+        2
+      )}
+    `,
+    notes: `Antes da automação, manter uma cidade iluminada exigia
+      trabalho presencial. Os equipamentos e combustíveis variavam,
+      mas a iluminação estava diretamente ligada ao consumo de
+      recursos e à queima de combustíveis.`
+  },
+
+  {
+    name: "A eletricidade",
+    className: "transition",
+    html: `
+      ${eyebrow(3, "A TECNOLOGIA TRANSFORMA")}
+
+      <div class="grid">
+        <div>
+          <h2 id="title-2">
+            A eletricidade<br>mudou as ruas<br>
+            <em>— e o trabalho</em>
+          </h2>
+
+          <div class="flow">
+            <div class="reveal">Iluminação elétrica</div>
+            <span>↓</span>
+
+            <div class="reveal" style="--delay:.35s">
+              Acionamento centralizado e automático
+            </div>
+            <span>↓</span>
+
+            <div class="reveal" style="--delay:.55s">
+              Redução da necessidade de acendimento manual
+            </div>
+          </div>
+        </div>
+
+        <figure>${electricityArt}</figure>
+      </div>
+
+      <div class="bottom-pair">
+        <p>
+          Novas tecnologias podem reduzir impactos, mas o resultado
+          depende da fonte de energia, da eficiência e do uso.
+        </p>
+        <p class="accent">
+          Mais eficiência também exige evitar desperdício
+          e poluição luminosa.
+        </p>
+      </div>
+
+      ${footer("EFICIÊNCIA + USO RESPONSÁVEL", 3)}
+    `,
+    notes: `A eletrificação fez o ofício perder espaço. Hoje,
+      tecnologias eficientes, como LEDs, podem economizar energia,
+      mas iluminação excessiva ou mal direcionada continua causando
+      impactos, inclusive sobre animais e o céu noturno.`
+  },
+
+  {
+    name: "Desinformação",
+    className: "falsehood",
+    html: `
+      ${eyebrow(4, "NOVOS TEMPOS, NOVOS PROBLEMAS")}
+
+      <h2 id="title-3">
+        E quando o que vemos<br>sobre o planeta <em>é falso?</em>
+      </h2>
+
+      <div class="media-grid">
+        ${[
+          [
+            "Vídeo",
+            videoArt,
+            "Vídeo manipulado de um desastre ambiental."
+          ],
+          [
+            "Áudio",
+            audioArt,
+            "Voz clonada de um cientista divulgando uma declaração falsa."
+          ],
+          [
+            "Imagem",
+            imageArt,
+            "Imagem adulterada usada para promover uma empresa como sustentável."
+          ]
+        ].map(([type, art, text], i) => `
+          <article class="media-card reveal"
+                   style="--delay:${.15 + i * .25}s">
+            <div class="media-top">
+              <span>${type}</span>
+              <small>EXEMPLO HIPOTÉTICO</small>
+            </div>
+            ${art}
+            <p>${text}</p>
+          </article>
+        `).join("")}
+      </div>
+
+      <p class="closing reveal" style="--delay:1s">
+        Informação falsa pode confundir a população
+        e prejudicar decisões ambientais.
+      </p>
+
+      ${footer("VERIFICAR ANTES DE COMPARTILHAR", 4)}
+    `,
+    notes: `Nem toda desinformação usa inteligência artificial,
+      e nem toda imagem gerada por IA é uma fraude. O problema surge
+      quando um conteúdo é apresentado de forma enganosa. Em assuntos
+      ambientais, isso pode afetar a confiança na ciência e nas ações
+      de proteção.`
+  },
+
+  {
+    name: "A profissão futura",
+    className: "future",
+    html: `
+      ${eyebrow(5, "UMA ESPECIALIZAÇÃO EM PERSPECTIVA")}
+
+      <div class="grid">
+        <div>
+          <h2 id="title-4">
+            Investigador de <em>Deepfakes</em><br>
+            e Auditor de Algoritmos<br>
+            <em>Ambientais</em>
+          </h2>
+
+          <p class="future-sub">
+            Uma especialização futura baseada em atividades
+            que já existem.
+          </p>
+
+          <div class="role">
+            <b>INVESTIGAR</b>
+            <span>
+              Verificar a autenticidade de áudio, vídeo e imagem.
+            </span>
+          </div>
+
+          <div class="role">
+            <b>AUDITAR</b>
+            <span>
+              Avaliar dados, critérios, resultados e possíveis
+              distorções dos sistemas.
+            </span>
+          </div>
+
+          <ol class="duties">
+            ${[
+              "Investigar imagens, vídeos e áudios suspeitos.",
+              "Verificar a origem e o contexto de conteúdos.",
+              "Auditar sistemas que analisam dados ambientais.",
+              "Comunicar evidências, limites e incertezas."
+            ].map((text, i) => `
+              <li class="reveal" style="--delay:${.25 + i * .3}s">
+                <span>0${i + 1}</span>${text}
+              </li>
+            `).join("")}
+          </ol>
+        </div>
+
+        <figure>${deskArt}</figure>
+      </div>
+
+      ${environment(`
+        Missão: aumentar a confiança nas informações usadas
+        para proteger o planeta.
+      `)}
+
+      ${footer(
+        "TECNOLOGIA + INVESTIGAÇÃO + RESPONSABILIDADE",
+        5
+      )}
+    `,
+    notes: `Esse profissional não teria um detector infalível de
+      mentiras. Ele combinaria análise técnica, comparação com fontes
+      confiáveis e investigação de contexto. A auditoria de algoritmos
+      também examinaria se um sistema usa dados adequados e produz
+      resultados confiáveis.`
+  },
+
+  {
+    name: "Uma investigação",
+    className: "case",
+    html: `
+      ${riverArt}
+      ${eyebrow(6, "DA SUSPEITA À EVIDÊNCIA")}
+
+      <div class="case-header">
+        <h2 id="title-5">
+          Uma denúncia ambiental<br><em>sob investigação</em>
+        </h2>
+        <span class="fiction">CASO FICTÍCIO</span>
+      </div>
+
+      <p class="scenario">
+        Um vídeo viral acusa uma empresa de despejar resíduos em um rio.
+      </p>
+
+      <div class="steps">
+        ${[
+          "Conferir a fonte, a data e a localização.",
+          "Buscar registros independentes.",
+          "Analisar possíveis sinais de edição.",
+          "Comparar com dados ambientais disponíveis.",
+          "Publicar uma conclusão fundamentada."
+        ].map((text, i) => `
+          <div class="step reveal" style="--delay:${.2 + i * .3}s">
+            <span class="step-number">0${i + 1}</span>
+            <p>${text}</p>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="outcomes reveal" style="--delay:1.8s">
+        <span>Sobre a autenticidade, conforme as evidências:</span>
+        <b>Confirmado</b>
+        <b>Manipulado</b>
+        <b>Inconclusivo</b>
+      </div>
+
+      <blockquote class="reveal" style="--delay:2s">
+        Vídeo autêntico não prova toda a acusação.<br>
+        Vídeo falso não prova que o rio está limpo.
+      </blockquote>
+
+      ${footer(
+        "INVESTIGAR É CONSIDERAR TAMBÉM A INCERTEZA.",
+        6
+      )}
+    `,
+    notes: `A investigação precisa separar a autenticidade do vídeo
+      da condição real do rio. Para avaliar a poluição, também podem
+      ser necessárias análises de água, inspeções e outras evidências.
+      Quando os dados não permitem concluir, o resultado correto é
+      declarar a incerteza.`
+  },
+
+  {
+    name: "O que conecta",
+    className: "connection",
+    html: `
+      ${eyebrow(7, "DUAS ÉPOCAS. UMA RESPONSABILIDADE.")}
+
+      <h2 id="title-6">
+        Da luz nas ruas à clareza<br><em>nas informações</em>
+      </h2>
+
+      <div class="comparison">
+        <div class="comparison-head">
+          <span></span>
+          <h3>Acendedor de lampiões</h3>
+          <h3>Investigador e auditor ambiental</h3>
+        </div>
+
+        ${[
+          [
+            "Necessidade",
+            "Iluminar espaços públicos.",
+            "Verificar informações e sistemas."
+          ],
+          [
+            "Ferramentas",
+            "Haste, escada e lampião.",
+            "Análise digital, dados e investigação."
+          ],
+          [
+            "Relação ambiental",
+            "Combustíveis e iluminação.",
+            "Decisões baseadas em evidências."
+          ]
+        ].map(([label, past, future], i) => `
+          <div class="comparison-row reveal"
+               style="--delay:${.2 + i * .25}s">
+            <b>${label}</b>
+            <p>${past}</p>
+            <p>${future}</p>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="connection-bottom">
+        <div>
+          <p>
+            O trabalho digital também tem impacto: equipamentos,
+            eletricidade e uso de recursos.
+          </p>
+          <p class="accent">
+            A inovação precisa vir acompanhada
+            de responsabilidade ambiental.
+          </p>
+        </div>
+        <figure>${bridgeArt}</figure>
+      </div>
+
+      ${footer("INOVAR TAMBÉM É CUIDAR.", 7)}
+    `,
+    notes: `As profissões atendem a necessidades diferentes, mas ambas
+      mostram como o trabalho acompanha a tecnologia. Também precisamos
+      avaliar a pegada ambiental das ferramentas digitais e usar
+      recursos computacionais de forma proporcional à tarefa.`
+  },
+
+  {
+    name: "O futuro é uma escolha",
+    className: "end",
+    html: `
+      ${eyebrow(8, "O PRÓXIMO CAPÍTULO")}
+
+      <div class="grid">
+        <div>
+          <h2 id="title-7">
+            O futuro do trabalho<br>também é uma<br>
+            <em>escolha ambiental</em>
+          </h2>
+
+          ${list([
+            "Tecnologias transformam profissões.",
+            "Novos problemas criam novas especializações.",
+            "Proteger o planeta exige evidências e responsabilidade."
+          ])}
+        </div>
+
+        <figure>${treeArt}</figure>
+      </div>
+
+      <div class="question reveal" style="--delay:1.8s">
+        <span>PARA PENSAR</span>
+        <p>
+          Que problema ambiental você gostaria de ajudar
+          a resolver com a sua profissão?
+        </p>
+      </div>
+
+      ${footer("A PRÓXIMA LUZ PODE SER A SUA.", 8)}
+    `,
+    notes: `O acendedor de lampiões representa uma necessidade que
+      passou a ser atendida de outra forma. O investigador e auditor
+      ambiental representa necessidades que estão crescendo. Mais
+      do que imaginar empregos novos, precisamos pensar em como o
+      trabalho pode contribuir para uma sociedade bem informada e
+      ambientalmente responsável.`
+  }
+];
+
+/* REFERÊNCIAS */
+
+const sources = [
+  {
+    organization: "London Museum",
+    title: "How gas lamps illuminated London",
+    url: "https://www.londonmuseum.org.uk/collections/london-stories/gas-lamps-illuminated-london/",
+    description: "Slides 2–3 · iluminação antiga, combustíveis e trabalho dos acendedores."
+  },
+  {
+    organization: "National Gas Museum",
+    title: "London’s Gas Lamps",
+    url: "https://www.nationalgasmuseum.org.uk/lamp-locations/",
+    description: "Slides 2–3 · substituição pela eletricidade e sobrevivência de equipes de manutenção."
+  },
+  {
+    organization: "Department of Energy — EUA",
+    title: "LED Basics",
+    url: "https://www.energy.gov/cmei/ssl/led-basics",
+    description: "Slide 3 · eficiência dos LEDs e uso adequado da iluminação."
+  },
+  {
+    organization: "DarkSky International",
+    title: "Light pollution harms wildlife and ecosystems",
+    url: "https://darksky.org/resources/what-is-light-pollution/effects/wildlife-ecosystems/",
+    description: "Slide 3 · efeitos da iluminação artificial noturna sobre fauna e ecossistemas."
+  },
+  {
+    organization: "NIST",
+    title: "Reducing Risks Posed by Synthetic Content — NIST AI 100-4",
+    url: "https://www.nist.gov/publications/reducing-risks-posed-synthetic-content-overview-technical-approaches-digital-content",
+    description: "Slides 4–6 · procedência, detecção e limites da verificação de conteúdo sintético."
+  },
+  {
+    organization: "NIST",
+    title: "AI Risk Management Framework",
+    url: "https://www.nist.gov/itl/ai-risk-management-framework",
+    description: "Slide 5 · avaliação, confiabilidade e gestão de riscos dos sistemas de IA."
+  },
+  {
+    organization: "Agência Internacional de Energia",
+    title: "Energy and AI — AI and climate change",
+    url: "https://www.iea.org/reports/energy-and-ai/ai-and-climate-change",
+    description: "Slide 7 · demanda energética e impactos ambientais da infraestrutura digital."
+  }
+];
+
+/* MONTAGEM */
+
+const byId = id => document.getElementById(id);
+
+byId("deck").innerHTML = slideData.map((slide, i) => `
+  <section class="slide ${slide.className}"
+           data-index="${i}"
+           aria-labelledby="title-${i}"
+           aria-hidden="true">
+    ${slide.html}
+  </section>
+`).join("");
+
+byId("progress").innerHTML = slideData.map((slide, i) => `
+  <button data-go="${i}"
+          aria-label="Slide ${i + 1}: ${slide.name}"
+          aria-current="false"></button>
+`).join("");
+
+byId("source-list").innerHTML = sources.map(source => `
+  <li>
+    <small>${source.organization}</small>
+    <a href="${source.url}" target="_blank" rel="noopener noreferrer">
+      ${source.title} ↗
+    </a>
+    <p>${source.description}</p>
+  </li>
+`).join("");
+
+const slides = [...document.querySelectorAll(".slide")];
+const dots = [...document.querySelectorAll("[data-go]")];
+
+let current = 0;
+let lastFocus = null;
+
+/* NAVEGAÇÃO */
+
+function updateNotes() {
+  byId("note-label").textContent =
+    `SLIDE ${String(current + 1).padStart(2, "0")} · ` +
+    slideData[current].name;
+
+  byId("note-text").textContent =
+    slideData[current].notes.replace(/\s+/g, " ").trim();
+
+  byId("note-prev").disabled = current === 0;
+  byId("note-next").disabled = current === slides.length - 1;
+}
+
+function go(index, updateHash = true) {
+  index = Math.max(0, Math.min(slides.length - 1, index));
+
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    slide.inert = i !== index;
+    slide.setAttribute("aria-hidden", String(i !== index));
+  });
+
+  current = index;
+
+  // Reinicia as animações ao voltar a um slide.
+  void slides[current].offsetWidth;
+  slides[current].classList.add("active");
+
+  dots.forEach((dot, i) => {
+    dot.setAttribute("aria-current", String(i === current));
+  });
+
+  byId("prev").disabled = current === 0;
+  byId("next").disabled = current === slides.length - 1;
+
+  byId("counter").textContent =
+    `${String(current + 1).padStart(2, "0")} / 08`;
+
+  byId("announce").textContent =
+    `Slide ${current + 1} de 8: ${slideData[current].name}`;
+
+  updateNotes();
+
+  if (updateHash) {
+    try {
+      history.replaceState(null, "", `#slide-${current + 1}`);
+    } catch {
+      // A apresentação continua funcionando em navegadores
+      // que restringem history.replaceState em arquivos locais.
+    }
+  }
+}
+
+byId("prev").addEventListener("click", () => go(current - 1));
+byId("next").addEventListener("click", () => go(current + 1));
+
+byId("note-prev").addEventListener("click", () => go(current - 1));
+byId("note-next").addEventListener("click", () => go(current + 1));
+
+dots.forEach(dot => {
+  dot.addEventListener("click", () => go(Number(dot.dataset.go)));
+});
+
+/* NOTAS E FONTES */
+
+function openPanel(id) {
+  lastFocus = document.activeElement;
+  byId(id).showModal();
+}
+
+byId("notes-button").addEventListener("click", () => {
+  openPanel("notes-dialog");
+});
+
+byId("sources-button").addEventListener("click", () => {
+  openPanel("sources-dialog");
+});
+
+document.querySelectorAll("dialog").forEach(dialog => {
+  dialog.querySelector("[data-close]").addEventListener("click", () => {
+    dialog.close();
+  });
+
+  dialog.addEventListener("close", () => {
+    lastFocus?.focus();
+  });
+
+  dialog.addEventListener("click", event => {
+    if (event.target !== dialog) return;
+
+    const bounds = dialog.getBoundingClientRect();
+    const outside =
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom;
+
+    if (outside) dialog.close();
+  });
+});
+
+/* TELA CHEIA */
+
+async function toggleFullscreen() {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else if (document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      alert("Use o modo de tela cheia do seu navegador.");
+    }
+  } catch {
+    alert("Use o modo de tela cheia do navegador: F11 no computador.");
+  }
+}
+
+byId("fullscreen-button").addEventListener("click", toggleFullscreen);
+
+document.addEventListener("fullscreenchange", () => {
+  byId("fullscreen-button").textContent =
+    document.fullscreenElement ? "Sair da tela cheia" : "Tela cheia";
+});
+
+/* TECLADO */
+
+document.addEventListener("keydown", event => {
+  const panelOpen = document.querySelector("dialog[open]");
+  const typing = /INPUT|TEXTAREA|SELECT/.test(event.target.tagName);
+
+  if (
+    panelOpen ||
+    typing ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.altKey
+  ) return;
+
+  if (["ArrowRight", "ArrowDown", "PageDown"].includes(event.key)) {
+    event.preventDefault();
+    go(current + 1);
+  }
+
+  if (["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key)) {
+    event.preventDefault();
+    go(current - 1);
+  }
+
+  if (event.key === " " && event.target === document.body) {
+    event.preventDefault();
+    go(current + 1);
+  }
+
+  if (event.key === "Home") {
+    event.preventDefault();
+    go(0);
+  }
+
+  if (event.key === "End") {
+    event.preventDefault();
+    go(slides.length - 1);
+  }
+
+  if (event.key.toLowerCase() === "f") toggleFullscreen();
+  if (event.key.toLowerCase() === "n") openPanel("notes-dialog");
+});
+
+/* GESTOS NO CELULAR */
+
+let touchStart = null;
+
+byId("deck").addEventListener("touchstart", event => {
+  const touch = event.changedTouches[0];
+  touchStart = [touch.clientX, touch.clientY];
+}, { passive: true });
+
+byId("deck").addEventListener("touchend", event => {
+  if (!touchStart) return;
+
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - touchStart[0];
+  const dy = touch.clientY - touchStart[1];
+
+  if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    go(current + (dx < 0 ? 1 : -1));
+  }
+
+  touchStart = null;
+}, { passive: true });
+
+/* IMPRESSÃO */
+
+byId("print-button").addEventListener("click", () => {
+  byId("sources-dialog").close();
+  window.print();
+});
+
+/* ABERTURA EM UM SLIDE ESPECÍFICO */
+
+function readHash() {
+  const match = location.hash.match(/^#slide-([1-8])$/);
+  return match ? Number(match[1]) - 1 : 0;
+}
+
+window.addEventListener("hashchange", () => {
+  go(readHash(), false);
+});
+
+go(readHash(), false);
+</script>
+
+</body>
+</html>
